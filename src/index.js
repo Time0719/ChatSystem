@@ -3,24 +3,26 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import App from './app';
-import { counter } from './index.redux';
+import reducers from './reducer';
+import './config';
+import './index.css';
 
 
-const store = createStore(counter, compose(
+// const store = createStore(reducers,applyMiddleware(thunk)); //applyMiddleware 中间件机制
+const store = createStore(reducers, compose(
     applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
-const render = () => {
-    ReactDOM.render(
-        (
-            <Provider store={store}>
+ReactDOM.render(
+    (
+        <Provider store={store}>
+            <BrowserRouter>
                 <App />
-            </Provider>
-        ),
-        document.getElementById('root'));
-};
-render();
-
-store.subscribe(render);
+            </BrowserRouter>
+        </Provider>
+    ),
+    document.getElementById('root')
+);

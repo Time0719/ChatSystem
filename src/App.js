@@ -1,21 +1,30 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { addGun, removeGun, addGunAsync } from './index.redux';
+import React, { useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
 
+import Login from './container/login/login';
+import Register from './container/register/register';
+import AuthRoute from './component/authroute/authroute';
+import BossInfo from './container/bossinfo/bossinfo';
+import GeniusInfo from './container/geniusinfo/geniusinfo';
+import Dashboard from './component/dashboard/dashboard';
+import Chat from './component/chat/chat';
 
-const App = (props) => {
+const App = () => {
+
     return (
         <>
-            <h1>现在有机枪{props.num}把</h1>
-            <button onClick={props.addGun}>申请武器</ button>
-            <button onClick={props.removeGun}>申请武器</ button>
-            <button onClick={props.addGunAsync}>拖两天再给</ button>
+            <AuthRoute />
+            <Switch>
+                <Route path='/login' exact component={Login}></Route>
+                <Route path='/register' component={Register}></Route>
+                <Route path='/bossinfo' component={BossInfo}></Route>
+                <Route path='/geniusinfo' component={GeniusInfo}></Route>
+                <Route path='/chat/:user' component={Chat}></Route>
+                <Route component={Dashboard}></Route>
+                {/* <Redirect to='/login' /> */}
+            </Switch>
         </>
-    )
+    );
 };
 
-const mapStatetoProps = (state) => {
-    return { num: state };
-};
-const actionCreators = { addGun, removeGun, addGunAsync };
-export default connect(mapStatetoProps, actionCreators)(App);
+export default App;
